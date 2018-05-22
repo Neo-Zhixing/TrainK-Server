@@ -1,5 +1,5 @@
 from enum import Enum, unique
-from utils import ModelFieldEnum
+from utils import ModelFieldEnum, coordinates
 
 from django.db import models
 from django.contrib.postgres.fields import JSONField
@@ -16,6 +16,15 @@ class Node(models.Model):
 	@property
 	def lines(self):
 		return self.segments.lines
+
+	@property
+	def position(self):
+		return coordinates.Position(x=self.positionX, y=self.positionY)
+
+	@position.setter
+	def position(self, value):
+		self.positionX = getattr(value, 'x', value[0])
+		self.positionY = getattr(value, 'y', value[1])
 
 
 class Station(Node):

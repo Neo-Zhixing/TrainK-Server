@@ -1,3 +1,10 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from utils.permissions import IsAdminOrReadOnly
 
-# Create your views here.
+from . import models, serializers
+
+
+class StationViewSet(viewsets.ModelViewSet):
+	queryset = models.Station.objects.all()
+	serializer_class = serializers.StationSerializer
+	permission_classes = (IsAdminOrReadOnly, )
