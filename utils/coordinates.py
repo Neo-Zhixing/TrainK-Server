@@ -9,6 +9,9 @@ class Position:
 	def __iter__(self):
 		return iter([self.x, self.y])
 
+	def __str__(self):
+		return "(%f, %f)" % (self.x, self.y)
+
 	def inRect(self, rect):
 		return rect.containsPoint(self)
 
@@ -17,10 +20,36 @@ class Size:
 	width = 0
 	height = 0
 
+	def __init__(self, width=0, height=0):
+		self.width = width
+		self.height = height
+
+	def __str__(self):
+		return "%fx%f" % (self.width, self.height)
+
 
 class Rect:
 	origin = Position()
 	size = Size()
+
+	def __init__(self, **kwargs):
+		if 'origin' in kwargs and 'size' in kwargs:
+			self.origin = kwargs['origin']
+			self.size = kwargs['size']
+		elif 'x' in kwargs and 'y' in kwargs and \
+			'width' in kwargs and 'height' in kwargs:
+			self.origin = Position(x=kwargs['x'], y=kwargs['y'])
+			self.size = Size(width=kwargs['width'], height=kwargs['height'])
+		elif 'minX' in kwargs and 'minY' in kwargs and \
+			'maxX' in kwargs and 'maxY' in kwargs:
+			self.origin = Position(x=kwargs['minX'], y=kwargs['minY'])
+			self.size = Size(width=kwargs['maxX'] - self.origin.x, height=kwargs['maxY'] - self.origin.y)
+		else:
+			self.origin = Position()
+			self.size = Size()
+
+	def __str__(self):
+		return "%s, %s" % (self.origin.__str__(), self.size.__str__())
 
 	@property
 	def minX(self):

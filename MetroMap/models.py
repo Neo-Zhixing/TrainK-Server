@@ -40,10 +40,16 @@ class Station(Node):
 	level = models.IntegerField(choices=Level.choices(), default=Level.Minor)
 
 
+class Line(models.Model):
+	name = models.CharField(max_length=30)
+	attr = JSONField()
+
+
 class Segment(models.Model):
 	fromNode = models.ForeignKey(Node, on_delete=models.CASCADE, related_name='_origin_segment')
 	toNode = models.ForeignKey(Node, on_delete=models.CASCADE, related_name='_destination_segment')
 	length = models.DecimalField(max_digits=3, decimal_places=2, default=1)  # In kilometers
+	line = models.ForeignKey(Line, on_delete=models.CASCADE, related_name='segments')
 
 	@unique
 	class Shape(int, ModelFieldEnum, Enum):
@@ -54,9 +60,3 @@ class Segment(models.Model):
 		Straight = 4
 
 	shape = models.IntegerField(choices=Shape.choices())
-
-
-class Line(models.Model):
-	name = models.CharField(max_length=30)
-	attr = JSONField()
-	segments = models.ManyToManyField(Segment, related_name='lines')

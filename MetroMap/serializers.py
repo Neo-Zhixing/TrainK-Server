@@ -23,10 +23,14 @@ class StationSerializer(NodeSerializer):
 class SegmentSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = models.Segment
-		fields = ('id', 'fromNode', 'toNode', 'length', 'shape')
+		fields = ('id', 'from', 'to', 'length', 'shape')
+		extra_kwargs = {
+			'from': {'source': 'fromNode'},
+			'to': {'source': 'toNode'}
+		}
 
 
 class LineSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = models.Line
-		fields = ('id', 'name', 'attr', 'segment')
+		fields = ('id', 'name', 'attr')
