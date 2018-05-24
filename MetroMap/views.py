@@ -23,10 +23,15 @@ class StationViewSet(viewsets.ModelViewSet):
 				positionY__gte=minY,
 				positionY__lte=maxY
 			)
-		except Exception as e:
-			print(e)
+		except Exception:
 			pass
 		return queryset
+
+
+class LineViewSet(viewsets.ModelViewSet):
+	queryset = models.Line.objects.all()
+	serializer_class = serializers.LineDetailSerializer
+	permissions = (IsAdminOrReadOnly, )
 
 
 class MapView(ObjectMultipleModelAPIView):
