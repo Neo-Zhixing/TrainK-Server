@@ -2,6 +2,7 @@ from enum import Enum, unique
 from utils import ModelFieldEnum, coordinates
 
 from django.db import models
+from django.urls import reverse
 from django.contrib.postgres.fields import JSONField
 
 
@@ -26,6 +27,11 @@ class Node(models.Model):
 		self.positionX = getattr(value, 'x', value[0])
 		self.positionY = getattr(value, 'y', value[1])
 
+	def __str__(self):
+		if hasattr(self, 'station'):
+			return self.station.__str__()
+		return f'{self.id} - ({self.positionX:.2f}, {self.positionY:.2f})'
+
 
 class Station(Node):
 	name = models.CharField(max_length=30)
@@ -39,10 +45,19 @@ class Station(Node):
 
 	level = models.IntegerField(choices=Level.choices(), default=Level.Minor)
 
+	def __str__(self):
+		return f'{self.id} - {self.name} ({self.positionX:.2f}, {self.positionY:.2f})'
+
+	def get_absolute_url(self):
+		return reverse('station-detail', args=[str(self.id)])
+
 
 class Line(models.Model):
 	name = models.CharField(max_length=30)
 	attr = JSONField()
+
+	def __str__(self):
+		return self.name
 
 
 class Segment(models.Model):
