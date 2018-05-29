@@ -2,12 +2,13 @@ from rest_framework import serializers
 from . import models
 
 
+class PointSerializer(serializers.Serializer):
+	x = serializers.DecimalField(max_digits=10, decimal_places=2)
+	y = serializers.DecimalField(max_digits=10, decimal_places=2)
+
+
 class NodeSerializer(serializers.ModelSerializer):
-	position = serializers.ListField(
-		child=serializers.DecimalField(max_digits=10, decimal_places=2),
-		min_length=2,
-		max_length=2
-	)
+	position = PointSerializer()
 
 	class Meta:
 		model = models.Node

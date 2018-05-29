@@ -12,10 +12,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'drf_multiple_model',
+
+    'corsheaders',
+
     'MetroMap',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -86,3 +90,9 @@ STATIC_URL = '/static/'
 REST_FRAMEWORK = {
     'COERCE_DECIMAL_TO_STRING': False
 }
+
+CORS_ORIGIN_WHITELIST = (
+    'localhost:8000',
+    'localhost:8080',
+    'tra.ink'
+)

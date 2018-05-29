@@ -20,12 +20,12 @@ class Node(models.Model):
 
 	@property
 	def position(self):
-		return coordinates.Position(x=self.positionX, y=self.positionY)
+		return coordinates.Point(x=self.positionX, y=self.positionY)
 
 	@position.setter
 	def position(self, value):
-		self.positionX = getattr(value, 'x', value[0])
-		self.positionY = getattr(value, 'y', value[1])
+		self.positionX = value.x
+		self.positionY = value.y
 
 	def __str__(self):
 		if hasattr(self, 'station'):

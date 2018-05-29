@@ -1,13 +1,10 @@
-class Position:
+class Point:
 	x = 0
 	y = 0
 
 	def __init__(self, x=0, y=0):
 		self.x = x
 		self.y = y
-
-	def __iter__(self):
-		return iter([self.x, self.y])
 
 	def __str__(self):
 		return "(%f, %f)" % (self.x, self.y)
@@ -29,7 +26,7 @@ class Size:
 
 
 class Rect:
-	origin = Position()
+	origin = Point()
 	size = Size()
 
 	def __init__(self, **kwargs):
@@ -38,14 +35,14 @@ class Rect:
 			self.size = kwargs['size']
 		elif 'x' in kwargs and 'y' in kwargs and \
 			'width' in kwargs and 'height' in kwargs:
-			self.origin = Position(x=kwargs['x'], y=kwargs['y'])
+			self.origin = Point(x=kwargs['x'], y=kwargs['y'])
 			self.size = Size(width=kwargs['width'], height=kwargs['height'])
 		elif 'minX' in kwargs and 'minY' in kwargs and \
 			'maxX' in kwargs and 'maxY' in kwargs:
-			self.origin = Position(x=kwargs['minX'], y=kwargs['minY'])
+			self.origin = Point(x=kwargs['minX'], y=kwargs['minY'])
 			self.size = Size(width=kwargs['maxX'] - self.origin.x, height=kwargs['maxY'] - self.origin.y)
 		else:
-			self.origin = Position()
+			self.origin = Point()
 			self.size = Size()
 
 	def __str__(self):

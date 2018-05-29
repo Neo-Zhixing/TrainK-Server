@@ -1,10 +1,24 @@
-from django.db.models import Q
+from django.db.models import Q, Max, Min
 from rest_framework import viewsets
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from utils.permissions import IsAdminOrReadOnly
-from utils import coordinates
 
 from . import models, serializers
 from drf_multiple_model.views import ObjectMultipleModelAPIView
+
+
+@api_view()
+def MapInfo(request):
+	return Response({
+		'frame': models.Node.objects.all().aggregate(
+			minX=Min('positionX'),
+			minY=Min('positionY'),
+			maxX=Max('positionX'),
+			maxY=Max('positionY')
+		),
+		'spacing': 100
+	})
 
 
 class StationViewSet(viewsets.ModelViewSet):
