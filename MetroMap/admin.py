@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.db.models import F
 from . import models
 
 
@@ -40,7 +41,18 @@ class NodeAdmin(admin.ModelAdmin):
 class SegmentAdmin(admin.ModelAdmin):
 	list_display = ('id', 'fromNode', 'toNode', 'line', 'length', 'shape')
 	list_select_related = ('fromNode', 'toNode', 'line')
+	list_filter = ('line', )
 	autocomplete_fields = ['fromNode', 'toNode', 'line']
+
+	actions = ['reverse_direction']
+
+	def reverse_direction(self, request, queryset):
+		rows_updated = queryset.update(toNode=F('fromNode'), fromNode=F('toNode'))
+		if rows_updated == 1:
+			message_bit = "A segment was"
+		else:
+			message_bit = "%s segments were" % rows_updated
+		self.message_user(request, "%s successfully reversed." % message_bit)
 
 
 @admin.register(models.Line)

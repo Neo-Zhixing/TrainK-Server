@@ -91,8 +91,6 @@ REST_FRAMEWORK = {
     'COERCE_DECIMAL_TO_STRING': False
 }
 
-CORS_ORIGIN_WHITELIST = (
-    'localhost:8000',
-    'localhost:8080',
+CORS_ORIGIN_WHITELIST = [
     'tra.ink'
-)
+]

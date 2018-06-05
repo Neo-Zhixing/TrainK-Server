@@ -17,7 +17,10 @@ def MapInfo(request):
 			maxX=Max('positionX'),
 			maxY=Max('positionY')
 		),
-		'spacing': 100
+		'spacing': 100,
+		'styles': 'kkkk',
+		'title': 'A Metro Map',
+		'cornerRadius': 15,
 	})
 
 

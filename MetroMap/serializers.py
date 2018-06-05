@@ -60,14 +60,14 @@ class SegmentDetailSerializer(SegmentSerializer):
 class LineSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = models.Line
-		fields = ('id', 'name', 'attr')
+		fields = ('id', 'name', 'attrs')
 
 
 class LineDetailSerializer(serializers.ModelSerializer):
 	segments = SegmentDetailSerializer(many=True)
 
 	class Meta(LineSerializer.Meta):
-		fields = ('id', 'name', 'attr', 'segments')
+		fields = ('id', 'name', 'attrs', 'segments')
 
 	def _update_segments(self, line, data):
 		segments_to_delete = models.Segment.objects.filter(line=line)
