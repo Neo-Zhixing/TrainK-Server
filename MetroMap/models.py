@@ -35,6 +35,7 @@ class Node(models.Model):
 
 class Station(Node):
 	name = models.CharField(max_length=30)
+	metadata = JSONField()
 
 	@unique
 	class Level(int, ModelFieldEnum, Enum):

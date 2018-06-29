@@ -18,7 +18,7 @@ class NodeSerializer(serializers.ModelSerializer):
 class StationSerializer(NodeSerializer):
 	class Meta(NodeSerializer.Meta):
 		model = models.Station
-		fields = NodeSerializer.Meta.fields + ('name', 'level')
+		fields = NodeSerializer.Meta.fields + ('name', 'level', 'metadata')
 
 
 class SegmentSerializer(serializers.ModelSerializer):
